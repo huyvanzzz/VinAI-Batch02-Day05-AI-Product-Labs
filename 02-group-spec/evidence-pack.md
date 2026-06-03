@@ -23,7 +23,7 @@ Nhóm tự dùng Trợ lý ảo VinmecCare và một chatbot sức khỏe tham k
 |---|---|---|---|
 | Khi user nhập câu rất mơ hồ/không thực tế như “sốt 90 độ”, VinmecCare trả lời rằng hệ tri thức chưa có câu trả lời. | ![Evidence 01](assets/z7896607630360_e3a20e3a6a34bfaa1355b1cad50e12aa.jpg) | Failure / Low-confidence | Bot có fallback, nhưng fallback chưa hướng dẫn user sửa câu hỏi, chưa hỏi lại dữ kiện tối thiểu, chưa giúp user recover. |
 | Khi user mô tả triệu chứng khá rõ như “đau dạ dày, đầy hơi, khó tiêu 2 tuần nay”, VinmecCare chỉ hỏi tuổi/năm sinh. | ![Evidence 02](assets/z7896607636913_7888656377b674b5bd0e49de9888968c.jpg) | Happy / Low-confidence | Bot bắt đầu intake bằng tuổi là hợp lý, nhưng chưa khai thác tiếp các slot quan trọng như mức độ đau, vị trí, triệu chứng đi kèm, red flag. |
-| Với triệu chứng “đau chân 3 ngày nay, chân sưng rất nhiều”, VinmecCare chuyển sang phiếu yêu cầu hỗ trợ/hotline. | ![Evidence 03](assets/z7896607636913_7888656377b674b5bd0e49de9888968c.jpg) | Failure / Handoff | Có handoff, nhưng chưa giải thích rõ vì sao cần handoff, chưa tóm tắt thông tin cho chuyên viên/bác sĩ. |
+| Với triệu chứng “đau chân 3 ngày nay, chân sưng rất nhiều”, VinmecCare chuyển sang phiếu yêu cầu hỗ trợ/hotline. | ![Evidence 03](assets/z7896607636913_7888656377b674b5bd0e49de9888968c.jpg) <br> Cùng screenshot với Evidence 02, phần dưới ảnh. | Failure / Handoff | Có handoff, nhưng chưa giải thích rõ vì sao cần handoff, chưa tóm tắt thông tin cho chuyên viên/bác sĩ. |
 | Khi user hỏi “Đau bụng thì phải làm sao” hoặc “Đau bụng âm ỉ nhiều ngày rồi hãy tư vấn cho tôi”, VinmecCare tiếp tục yêu cầu tuổi/năm sinh giống nhau. | ![Evidence 04](assets/z7896607628945_18619563927a18a013c6b6eab8daf01c.jpg) | Low-confidence | Bot đang dùng form cứng theo tuổi, chưa thể hiện khả năng hỏi động theo triệu chứng và mức độ thiếu thông tin. |
 | Với câu “Tôi đang bị sốt 40 độ”, VinmecCare đưa hướng dẫn tự chăm sóc như uống thuốc hạ sốt, bù nước, nghỉ ngơi. | ![Evidence 05](assets/z7896607662162_6ce8c49e91a4f700ab242ef5b4aaba96.jpg) | Failure | Sốt 40°C là tình huống cần được xử lý thận trọng. Bot nên ưu tiên red flag/handoff hoặc hỏi nhanh dấu hiệu nguy hiểm thay vì đưa lời khuyên chăm sóc chung. |
 | Với câu “Tôi đang bị sốt vậy tôi phải làm gì”, VinmecCare trả lời khá dài, mang tính thông tin chung. | ![Evidence 06](assets/z7896607666171_69348ea30957527d192aef5de6737f7a.jpg) | Low-confidence | Khi thông tin còn thiếu nhiệt độ, tuổi, thời gian sốt, triệu chứng đi kèm, bot nên hỏi thêm trước khi tư vấn. |
@@ -34,19 +34,13 @@ Nhóm tự dùng Trợ lý ảo VinmecCare và một chatbot sức khỏe tham k
 
 ## 3. User / review / social evidence
 
-Nguồn ngoài nhóm cần bổ sung bằng review App Store/Google Play, comment, phỏng vấn nhanh hoặc nguồn public. Hiện nhóm đã có self-use evidence; phần ngoài nhóm sẽ được bổ sung trước checkpoint M1 Day 06.
+Nguồn ngoài nhóm hiện dùng ở mức analog/public evidence để tránh chỉ dựa vào self-use. Nếu nhóm kịp phỏng vấn nhanh trước M1, phần này có thể thay bằng quote thật từ 1-2 người từng đặt lịch khám online.
 
 | Quote / review / observation | Nguồn | User là ai? | Pain/failure mode |
 |---|---|---|---|
-| Người dùng khi đặt khám online thường không chắc nên chọn chuyên khoa nào nếu chỉ biết triệu chứng chung như đau bụng, sốt, chóng mặt. | Phỏng vấn nhanh 1-2 người từng đặt lịch khám online, sẽ bổ sung | Bệnh nhân lần đầu đặt khám | Không biết chọn chuyên khoa, dễ chọn sai luồng khám hoặc bỏ cuộc. |
-| Người bệnh đang mệt không muốn gõ mô tả dài; họ cần câu hỏi ngắn, dễ bấm chọn. | Phỏng vấn nhanh/user observation, sẽ bổ sung | Bệnh nhân/người nhà bệnh nhân | Bot hỏi cứng hoặc trả lời dài làm user khó tiếp tục. |
-| Bác sĩ/nhân viên hỗ trợ cần thông tin có cấu trúc thay vì đọc toàn bộ chat log. | Giả định cần kiểm bằng phỏng vấn/analog từ form tiền khám | Bác sĩ/nhân viên tiếp nhận | Nếu không có summary, bác sĩ vẫn phải hỏi lại từ đầu. |
-
-Nếu chưa kịp có nguồn ngoài nhóm:
-
-```text
-Đây là giả định ban đầu. Nhóm sẽ kiểm bằng cách phỏng vấn nhanh 2 người từng đặt lịch khám online và chụp lại ít nhất 2 evidence từ review/app public trước checkpoint M1 Day 06.
-```
+| Luồng đặt khám online thường yêu cầu user chọn chuyên khoa hoặc loại dịch vụ trước khi hoàn tất đặt lịch. | Analog từ các app/website đặt khám và luồng VinmecCare quan sát được trong self-use | Bệnh nhân lần đầu đặt khám | Nếu user chỉ biết triệu chứng chung, bước chọn chuyên khoa dễ trở thành điểm nghẽn. |
+| Form tiền khám/pre-consultation form thường thu thông tin có cấu trúc như tuổi, triệu chứng chính, thời gian, mức độ và triệu chứng đi kèm. | Analog từ form tiền khám / pre-consultation form | Bệnh nhân/người nhà bệnh nhân, bác sĩ/nhân viên tiếp nhận | Chat tự nhiên cần được chuyển thành slot có cấu trúc để giảm việc hỏi lại từ đầu. |
+| Chatbot sức khỏe tham khảo có disclaimer, red flag guidance và gợi ý khi nào nên gặp bác sĩ. | Analog screenshot trong mục 4 | Bệnh nhân hỏi thông tin sức khỏe online | Prototype cần disclaimer rõ, không chẩn đoán, và phải ưu tiên handoff khi có dấu hiệu nguy hiểm. |
 
 ---
 
